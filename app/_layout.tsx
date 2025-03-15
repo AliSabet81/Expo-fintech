@@ -1,8 +1,12 @@
 import { useEffect } from "react";
-import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
+import { Ionicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
+import { Link, Stack, useRouter } from "expo-router";
+
+import Colors from "@/constants/Colors";
 
 import "react-native-reanimated";
 
@@ -13,6 +17,8 @@ const InitialLayout = () => {
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
+
+  const router = useRouter();
 
   useEffect(() => {
     if (loaded) {
