@@ -1,7 +1,3 @@
-import Colors from "@/constants/Colors";
-import { defaultStyles } from "@/constants/Styles";
-import { Link, useRouter } from "expo-router";
-import { useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +7,13 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-const Page = () => {
+import { useState } from "react";
+import { Link } from "expo-router";
+
+import Colors from "@/constants/Colors";
+import { defaultStyles } from "@/constants/Styles";
+
+const SingupPage = () => {
   const [countryCode, setCountryCode] = useState("+49");
   const [phoneNumber, setPhoneNumber] = useState("");
   const keyboardVerticalOffset = Platform.OS === "ios" ? 80 : 0;
@@ -89,4 +91,4 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primaryMuted,
   },
 });
-export default Page;
+export default SingupPage;
