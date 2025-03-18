@@ -15,26 +15,25 @@ import Colors from "@/constants/Colors";
 import { defaultStyles } from "@/constants/Styles";
 
 const SingupPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [countryCode, setCountryCode] = useState("+98");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const keyboardVerticalOffset = Platform.OS === "ios" ? 80 : 0;
 
   const router = useRouter();
-  const { signUp, isLoaded } = useSignUp();
+  const { signUp } = useSignUp();
 
   const onSignup = async () => {
-    if (!isLoaded) return;
+    const fullPhoneNumber = `${countryCode}${phoneNumber}`;
 
     try {
-      await signUp.create({
-        emailAddress: email,
-        password: password,
+      await signUp!.create({
+        phoneNumber: fullPhoneNumber,
       });
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      signUp!.preparePhoneNumberVerification();
 
       router.push({
-        pathname: "/verify/[email]",
-        params: { email },
+        pathname: "/verify/[phone]",
+        params: { phone: fullPhoneNumber },
       });
     } catch (error) {
       console.error("Error signing up:", error);
@@ -55,18 +54,17 @@ const SingupPage = () => {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder="Country code"
             placeholderTextColor={Colors.gray}
-            value={email}
-            keyboardType="email-address"
-            onChangeText={setEmail}
+            value={countryCode}
           />
           <TextInput
-            style={styles.input}
-            placeholder="Password"
+            style={[styles.input, { flex: 1 }]}
+            placeholder="Mobile number"
             placeholderTextColor={Colors.gray}
-            value={password}
-            onChangeText={setPassword}
+            keyboardType="numeric"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
           />
         </View>
 
@@ -83,7 +81,7 @@ const SingupPage = () => {
         <TouchableOpacity
           style={[
             defaultStyles.pillButton,
-            email !== "" && password !== "" ? styles.enabled : styles.disabled,
+            phoneNumber !== "" ? styles.enabled : styles.disabled,
             { marginBottom: 20 },
           ]}
           onPress={onSignup}
@@ -97,13 +95,14 @@ const SingupPage = () => {
 const styles = StyleSheet.create({
   inputContainer: {
     marginVertical: 40,
+    flexDirection: "row",
   },
   input: {
     backgroundColor: Colors.lightGray,
     padding: 20,
     borderRadius: 16,
     fontSize: 20,
-    marginTop: 10,
+    marginRight: 10,
   },
   enabled: {
     backgroundColor: Colors.primary,

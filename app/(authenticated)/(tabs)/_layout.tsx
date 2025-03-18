@@ -1,7 +1,8 @@
-import Colors from "@/constants/Colors";
-import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { BlurView } from "expo-blur";
+import { FontAwesome } from "@expo/vector-icons";
+
+import Colors from "@/constants/Colors";
 import CustomHeader from "@/components/CustomHeader";
 
 const Layout = () => {

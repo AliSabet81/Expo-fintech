@@ -1,10 +1,13 @@
-import Colors from "@/constants/Colors";
-
-import { ScrollView, StyleSheet } from "react-native";
+import { Text } from "react-native";
+import { useAuth } from "@clerk/clerk-expo";
 import { useHeaderHeight } from "@react-navigation/elements";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+
+import Colors from "@/constants/Colors";
 
 const Page = () => {
   const headerHeight = useHeaderHeight();
+  const { signOut } = useAuth();
 
   return (
     <ScrollView
@@ -12,7 +15,11 @@ const Page = () => {
       contentContainerStyle={{
         paddingTop: headerHeight,
       }}
-    ></ScrollView>
+    >
+      <TouchableOpacity style={{ padding: 20 }} onPress={() => signOut()}>
+        <Text>logout</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({

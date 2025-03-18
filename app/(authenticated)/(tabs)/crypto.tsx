@@ -1,5 +1,6 @@
 import { Text, ScrollView } from "react-native";
 import { useHeaderHeight } from "@react-navigation/elements";
+
 import Colors from "@/constants/Colors";
 import { defaultStyles } from "@/constants/Styles";
 
