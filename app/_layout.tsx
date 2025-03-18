@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import { Link, Stack, useRouter } from "expo-router";
+import { Link, Stack, useRouter, useSegments } from "expo-router";
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as SecureStore from "expo-secure-store";
@@ -41,12 +41,26 @@ const InitialLayout = () => {
   });
 
   const router = useRouter();
+  const { isLoaded, isSignedIn } = useAuth();
+  const segments = useSegments();
 
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const inAuthGroup = segments[0] === "(authenticated)";
+
+    if (isSignedIn && !inAuthGroup) {
+      router.replace("/(authenticated)/(tabs)/home");
+    } else if (!isSignedIn) {
+      router.replace("/");
+    }
+  }, [isSignedIn]);
 
   if (!loaded) {
     return null;
