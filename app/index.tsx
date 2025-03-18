@@ -8,9 +8,7 @@ import { defaultStyles } from "@/constants/Styles";
 
 const Page = () => {
   const [assets] = useAssets([require("../assets/videos/intro.mp4")]);
-  console.log("====================================");
-  console.log(assets);
-  console.log("====================================");
+
   return (
     <View style={styles.container}>
       {assets && (
