@@ -15,9 +15,9 @@ import { defaultStyles } from "@/constants/Styles";
 const CELL_COUNT = 6;
 
 const Page = () => {
-  const { email } = useLocalSearchParams<{ email: string }>();
   const [code, setCode] = useState("");
   const { signUp, setActive, isLoaded } = useSignUp();
+  const { email } = useLocalSearchParams<{ email: string }>();
 
   const ref = useBlurOnFulfill({ value: code, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
