@@ -7,6 +7,7 @@ import Colors from "@/constants/Colors";
 import RoundBtn from "@/components/RoundBtn";
 import { defaultStyles } from "@/constants/Styles";
 import { useBalanceStore } from "@/store/balanceStore";
+import WidgetList from "@/components/SortableList/WidgetList";
 
 const Page = () => {
   const { balance, runTransaction, transactions, clearTransactions } =
@@ -92,6 +93,8 @@ const Page = () => {
           </View>
         ))}
       </View>
+      <Text style={defaultStyles.sectionHeader}>Widgets</Text>
+      <WidgetList />
     </ScrollView>
   );
 };
