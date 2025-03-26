@@ -7,13 +7,14 @@ import * as SplashScreen from "expo-splash-screen";
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import { Link, Stack, useRouter, useSegments } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Colors from "@/constants/Colors";
 
 import "react-native-reanimated";
 
 import { tokenCache } from "@/lib/auth";
-
+const queryClient = new QueryClient();
 SplashScreen.preventAutoHideAsync();
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
@@ -169,10 +170,12 @@ const RootLayoutNav = () => {
 
   return (
     <ClerkProvider publishableKey={publishableKey!} tokenCache={tokenCache}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <StatusBar style="auto" />
-        <InitialLayout />
-      </GestureHandlerRootView>
+      <QueryClientProvider client={queryClient}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <StatusBar style="auto" />
+          <InitialLayout />
+        </GestureHandlerRootView>
+      </QueryClientProvider>
     </ClerkProvider>
   );
 };
