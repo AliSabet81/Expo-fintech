@@ -3,7 +3,7 @@ import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
 import * as SplashScreen from "expo-splash-screen";
-import { TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import { UserInactivityProvider } from "@/context/UserInactivity";
 import { Link, Stack, useRouter, useSegments } from "expo-router";
@@ -47,8 +47,12 @@ const InitialLayout = () => {
     }
   }, [isSignedIn]);
 
-  if (!loaded) {
-    return null;
+  if (!loaded || !isLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
   }
 
   return (
