@@ -12,7 +12,7 @@ import { BlurView } from "expo-blur";
 import Colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { getAppIcon, setAppIcon } from "expo-dynamic-app-icon";
+// import { getAppIcon, setAppIcon } from "expo-dynamic-app-icon";
 
 const ICONS = [
   {
@@ -40,9 +40,9 @@ const Page = () => {
 
   useEffect(() => {
     const loadCurrentIconPref = async () => {
-      const icon = await getAppIcon();
-      console.log("🚀 ~ loadCurrentIconPref ~ icon:", icon);
-      setActiveIcon(icon);
+      // const icon = await getAppIcon();
+      // console.log("🚀 ~ loadCurrentIconPref ~ icon:", icon);
+      // setActiveIcon(icon);
     };
     loadCurrentIconPref();
   }, []);
@@ -78,7 +78,7 @@ const Page = () => {
   };
 
   const onChangeAppIcon = async (icon: string) => {
-    await setAppIcon(icon.toLowerCase());
+    // await setAppIcon(icon.toLowerCase());
     setActiveIcon(icon);
   };
 
