@@ -37,7 +37,7 @@ const LoginPage = () => {
         await setActive({ session: signInAttempt.createdSessionId });
         router.replace("/(authenticated)/(tabs)/home");
       } else {
-        console.log(JSON.stringify(signInAttempt, null, 2));
+        console.error(JSON.stringify(signInAttempt, null, 2));
         Alert.alert("Error", "Log in failed. Please try again.");
       }
     } catch (err) {
