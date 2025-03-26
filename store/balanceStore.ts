@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface Transaction {
   id: string;
@@ -37,7 +38,7 @@ export const useBalanceStore = create<BalanceState>()(
       name: "balance",
       // only in build app
       // storage: createJSONStorage(() => zustandStorage),
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => AsyncStorage),
     }
   )
 );
