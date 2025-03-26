@@ -33,23 +33,5 @@
         <data android:scheme="exp+fintech"/>
       </intent-filter>
     </activity>
-    <activity-alias android:name="com.alisabet.fintech.MainActivitydefault" android:enabled="false" android:exported="true" android:icon="@mipmap/default" android:targetActivity=".MainActivity">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity-alias>
-    <activity-alias android:name="com.alisabet.fintech.MainActivitydark" android:enabled="false" android:exported="true" android:icon="@mipmap/dark" android:targetActivity=".MainActivity">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity-alias>
-    <activity-alias android:name="com.alisabet.fintech.MainActivityvivid" android:enabled="false" android:exported="true" android:icon="@mipmap/vivid" android:targetActivity=".MainActivity">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity-alias>
   </application>
 </manifest>
