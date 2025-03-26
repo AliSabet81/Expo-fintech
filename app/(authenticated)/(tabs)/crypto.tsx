@@ -34,7 +34,7 @@ const Page = () => {
       <Text style={defaultStyles.sectionHeader}>Latest Crypot</Text>
       <View style={defaultStyles.block}>
         {currencies.data?.map((currency: Currency) => (
-          <Link href={`/`} key={currency.id} asChild>
+          <Link href={`/crypto/${currency.id}`} key={currency.id} asChild>
             <TouchableOpacity
               style={{ flexDirection: "row", gap: 14, alignItems: "center" }}
             >
