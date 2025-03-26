@@ -16,7 +16,11 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.alisabet.fintech"
+      "package": "com.alisabet.fintech",
+      "permissions": [
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -68,6 +72,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": "https://alisabet.com"
+      },
+      "eas": {
+        "projectId": "d2f52d21-94b5-4b59-856f-f01ffeb473dd"
+      }
+    },
+    "owner": "alisabet"
   }
 }
