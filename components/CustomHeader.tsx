@@ -22,22 +22,22 @@ const CustomHeader = () => {
           },
         ]}
       >
-        {/* <Link href={'/(authenticated)/(modals)/account'} asChild> */}
-        <TouchableOpacity
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: Colors.gray,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ color: "#fff", fontWeight: "500", fontSize: 16 }}>
-            SG
-          </Text>
-        </TouchableOpacity>
-        {/* </Link> */}
+        <Link href={"/(authenticated)/(modals)/account"} asChild>
+          <TouchableOpacity
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 20,
+              backgroundColor: Colors.gray,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ color: "#fff", fontWeight: "500", fontSize: 16 }}>
+              SG
+            </Text>
+          </TouchableOpacity>
+        </Link>
         <View style={styles.searchSection}>
           <Ionicons
             style={styles.searchIcon}

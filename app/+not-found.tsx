@@ -1,7 +1,7 @@
 import { Link, Stack } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function NotFoundScreen() {
+const NotFoundScreen = () => {
   return (
     <>
       <Stack.Screen options={{ title: "Oops!" }} />
@@ -13,7 +13,7 @@ export default function NotFoundScreen() {
       </View>
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -27,3 +27,5 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
 });
+
+export default NotFoundScreen;
