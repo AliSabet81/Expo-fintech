@@ -48,15 +48,33 @@ const Page = () => {
   const { data } = useQuery({
     queryKey: ["info", id],
     queryFn: async () => {
-      const info = await fetch(`/api/info?ids=${id}`).then((res) => res.json());
-      return info[+id];
+      const info = await fetch(
+        `https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?id=${id}`,
+        {
+          headers: {
+            "X-CMC_PRO_API_KEY": "36748b5b-4590-4fdd-9d56-415fbb3eea72",
+          },
+        }
+      ).then((res) => res.json());
+
+      return info?.data[+id];
     },
   });
 
   const { data: tickers } = useQuery({
     queryKey: ["tickers"],
-    queryFn: async (): Promise<any[]> =>
-      fetch(`/api/tickers`).then((res) => res.json()),
+    queryFn: async (): Promise<any[]> => {
+      let coin = `${data?.symbol?.toLowerCase()}-${data?.slug}`;
+      if (data?.slug === "bnb") {
+        coin = "bnb-binance-coin";
+      }
+      const res = fetch(
+        `https://api.coinpaprika.com/v1/tickers/${coin}/historical?start=2025-01-01&interval=1d`
+      ).then((res) => res.json());
+
+      return res;
+    },
+    enabled: !!data?.symbol,
   });
 
   const animatedText = useAnimatedProps(() => {
@@ -177,7 +195,7 @@ const Page = () => {
         renderItem={({ item }) => (
           <>
             <View style={[defaultStyles.block, { height: 500 }]}>
-              {tickers && (
+              {tickers && tickers?.length > 0 ? (
                 <>
                   {!isActive && (
                     <View>
@@ -246,6 +264,16 @@ const Page = () => {
                     )}
                   </CartesianChart>
                 </>
+              ) : (
+                <Text
+                  style={{
+                    margin: "auto",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
+                >
+                  coin not found
+                </Text>
               )}
             </View>
             <View style={[defaultStyles.block, { marginTop: 20 }]}>

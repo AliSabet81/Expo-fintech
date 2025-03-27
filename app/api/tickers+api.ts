@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   // return Response.json(data);
 }
 
-const data = [
+export const tickersApiData = [
   {
     timestamp: "2025-01-01T00:00:00Z",
     price: 93863.32,

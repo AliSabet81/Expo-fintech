@@ -13,16 +13,32 @@ const Page = () => {
 
   const currencies = useQuery({
     queryKey: ["listings"],
-    queryFn: () => fetch("/api/listings").then((res) => res.json()),
+    queryFn: () =>
+      fetch(
+        `https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5&convert=EUR`,
+        {
+          headers: {
+            "X-CMC_PRO_API_KEY": "36748b5b-4590-4fdd-9d56-415fbb3eea72",
+          },
+        }
+      ).then((res) => res.json()),
   });
 
-  const ids = currencies.data
+  const ids = currencies?.data?.data
     ?.map((currency: Currency) => currency.id)
     .join(",");
 
   const { data } = useQuery({
     queryKey: ["info", ids],
-    queryFn: () => fetch(`/api/info?ids=${ids}`).then((res) => res.json()),
+    queryFn: () =>
+      fetch(
+        `https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?id=${ids}`,
+        {
+          headers: {
+            "X-CMC_PRO_API_KEY": "36748b5b-4590-4fdd-9d56-415fbb3eea72",
+          },
+        }
+      ).then((res) => res.json()),
     enabled: !!ids,
   });
 
@@ -33,13 +49,13 @@ const Page = () => {
     >
       <Text style={defaultStyles.sectionHeader}>Latest Crypot</Text>
       <View style={defaultStyles.block}>
-        {currencies.data?.map((currency: Currency) => (
+        {currencies?.data?.data?.map((currency: Currency) => (
           <Link href={`/crypto/${currency.id}`} key={currency.id} asChild>
             <TouchableOpacity
               style={{ flexDirection: "row", gap: 14, alignItems: "center" }}
             >
               <Image
-                source={{ uri: data?.[currency.id].logo }}
+                source={{ uri: data?.data?.[currency.id].logo }}
                 style={{ width: 40, height: 40 }}
               />
               <View style={{ flex: 1, gap: 6 }}>

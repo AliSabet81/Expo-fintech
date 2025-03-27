@@ -68,7 +68,6 @@ const Page = () => {
 
     if (!result.canceled) {
       const base64 = `data:image/png;base64,${result.assets[0].base64}`;
-      console.log(base64);
 
       user?.setProfileImage({
         file: base64,

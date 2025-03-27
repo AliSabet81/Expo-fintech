@@ -18,7 +18,7 @@ export async function GET(request: Request) {
   // return Response.json(data);
 }
 
-const data = [
+export const listingsApiData = [
   {
     id: 1,
     name: "Bitcoin",

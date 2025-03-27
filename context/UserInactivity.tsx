@@ -35,13 +35,12 @@ export const UserInactivityProvider = ({ children }: any) => {
       appState.current.match(/background/)
     ) {
       const number = await AsyncStorage.getItem("startTime");
+      const password = await AsyncStorage.getItem("user-password");
       const elapsed = Date.now() - +(number || 0);
       // const elapsed = Date.now() - (storage.getNumber("startTime") || 0);
-      console.log("🚀 ~ handleAppStateChange ~ elapsed:", elapsed);
+      console.log("🚀 ~ handleAppStateChange ~ elapsed:", elapsed, password);
 
-      if (elapsed > 3000 && isSignedIn) {
-        console.log("no ?");
-
+      if (elapsed > 3000 && password) {
         router.replace("/(authenticated)/(modals)/lock");
       }
     }

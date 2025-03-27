@@ -1,29 +1,21 @@
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
 } from "react-native-reanimated";
-import { useRouter } from "expo-router";
+import { useState } from "react";
 import * as Haptics from "expo-haptics";
-import { useUser } from "@clerk/clerk-expo";
-import { useEffect, useState } from "react";
+import { useRouter } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as LocalAuthentication from "expo-local-authentication";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import Colors from "@/constants/Colors";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Page = () => {
-  const { user } = useUser();
-  const [firstName, setFirstName] = useState(user?.firstName);
   const [code, setCode] = useState<number[]>([]);
   const codeLength = Array(6).fill(0);
   const router = useRouter();
-
   const offset = useSharedValue(0);
 
   const style = useAnimatedStyle(() => {
@@ -31,32 +23,6 @@ const Page = () => {
       transform: [{ translateX: offset.value }],
     };
   });
-
-  const OFFSET = 20;
-  const TIME = 80;
-
-  useEffect(() => {
-    if (code.length === 6) {
-      const getPassword = async () => {
-        const password = await AsyncStorage.getItem("user-password");
-        return password;
-      };
-      getPassword().then((password) => {
-        if (code.join("") === password) {
-          router.replace("/(authenticated)/(tabs)/home");
-          setCode([]);
-        } else {
-          offset.value = withSequence(
-            withTiming(-OFFSET, { duration: TIME / 2 }),
-            withRepeat(withTiming(OFFSET, { duration: TIME }), 4, true),
-            withTiming(0, { duration: TIME / 2 })
-          );
-          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-          setCode([]);
-        }
-      });
-    }
-  }, [code]);
 
   const onNumberPress = (number: number) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -68,18 +34,20 @@ const Page = () => {
     setCode(code.slice(0, -1));
   };
 
-  const onBiometricAuthPress = async () => {
-    const { success } = await LocalAuthentication.authenticateAsync();
-    if (success) {
+  const handleSubmit = async () => {
+    if (code.length === 6) {
+      await AsyncStorage.setItem("user-password", code.join(""));
+      setCode([]);
       router.replace("/(authenticated)/(tabs)/home");
-    } else {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     }
+  };
+  const handleRemove = async () => {
+    await AsyncStorage.removeItem("user-password");
   };
 
   return (
     <SafeAreaView>
-      <Text style={styles.greeting}>Welcome back, {firstName}</Text>
+      <Text style={styles.greeting}>Set Password</Text>
 
       <Animated.View style={[styles.codeView, style]}>
         {codeLength.map((_, index) => (
@@ -136,13 +104,13 @@ const Page = () => {
             alignItems: "center",
           }}
         >
-          <TouchableOpacity onPress={onBiometricAuthPress}>
-            <MaterialCommunityIcons
-              name="face-recognition"
-              size={26}
-              color="black"
-            />
-          </TouchableOpacity>
+          <View style={{ minWidth: 26 }}>
+            {code.length === 6 && (
+              <TouchableOpacity onPress={handleSubmit}>
+                <Text style={styles.number}>OK</Text>
+              </TouchableOpacity>
+            )}
+          </View>
 
           <TouchableOpacity onPress={() => onNumberPress(0)}>
             <Text style={styles.number}>0</Text>
@@ -162,16 +130,19 @@ const Page = () => {
             )}
           </View>
         </View>
-        <Text
-          style={{
-            alignSelf: "center",
-            color: Colors.primary,
-            fontWeight: "500",
-            fontSize: 18,
-          }}
-        >
-          Forgot your passcode?
-        </Text>
+
+        <TouchableOpacity onPress={handleRemove}>
+          <Text
+            style={{
+              alignSelf: "center",
+              color: Colors.primary,
+              fontWeight: "500",
+              fontSize: 18,
+            }}
+          >
+            remove password
+          </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -189,7 +160,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 20,
-    marginVertical: 100,
+    marginVertical: 60,
   },
   codeEmpty: {
     width: 20,

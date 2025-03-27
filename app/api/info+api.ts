@@ -19,7 +19,7 @@ export async function GET(request: Request) {
   // return Response.json(data);
 }
 
-const data = {
+export const infoApiData = {
   status: {
     timestamp: "2025-03-26T06:47:26.456Z",
     error_code: 0,

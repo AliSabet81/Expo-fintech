@@ -72,12 +72,13 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="lifestyle"
+        name="password"
         options={{
-          title: "Lifestyle",
+          title: "password",
           tabBarIcon: ({ size, color }) => (
             <FontAwesome name="th" size={size} color={color} />
           ),
+          headerShown: false,
         }}
       />
     </Tabs>
